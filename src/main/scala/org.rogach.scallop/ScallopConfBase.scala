@@ -18,7 +18,8 @@ class Subcommand(commandNameAndAliases: String*) extends ScallopConf(Nil, comman
 /** Contains non-platform-specific functionality of ScallopConf. */
 abstract class ScallopConfBase(
   val args: CSeq[String] = Nil,
-  protected val commandNameAndAliases: Seq[String] = Nil
+  protected val commandNameAndAliases: Seq[String] = Nil,
+  protected val canReadFromFileOrStdIn: Boolean
 ) extends ScallopConfValidations {
 
   /** Pointer to parent ScallopConf */
@@ -52,7 +53,7 @@ abstract class ScallopConfBase(
   }
 
   /** Internal immutable builder for options setup. */
-  var builder = Scallop(args)
+  var builder = Scallop(args, canReadFromFileOrStdIn)
 
   private[scallop] def editBuilder(fn: Scallop => Scallop): Unit = {
     builder = fn(builder)

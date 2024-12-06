@@ -6,8 +6,9 @@ import org.rogach.scallop.exceptions.OptionNameGuessingException
 /** Base class for CLI parsers. */
 abstract class ScallopConf(
   args: CSeq[String] = Nil,
-  commandNameAndAliases: Seq[String] = Nil
-) extends ScallopConfBase(args, commandNameAndAliases) {
+  commandNameAndAliases: Seq[String] = Nil,
+  canReadFromFileOrStdIn: Boolean = true
+) extends ScallopConfBase(args, commandNameAndAliases, canReadFromFileOrStdIn) {
 
   // machinery to support option name guessing
   override protected def optionNameGuessingSupported: Boolean = true

@@ -8,9 +8,9 @@ import scala.collection.{Seq => CSeq}
 
 trait ScallopArgListLoader {
 
-  def loadArgList(args: CSeq[String]): CSeq[String] = {
+  def loadArgList(args: CSeq[String], canReadFromFileOrStdIn: Boolean): CSeq[String] = {
     args.headOption match {
-      case Some(arg) if arg.startsWith("@") =>
+      case Some(arg) if canReadFromFileOrStdIn && arg.startsWith("@") =>
         val (filename, inputStream) =
           if (arg == "@--") {
             // read options from stdin

@@ -9,11 +9,21 @@ private[scallop] object Scallop {
   /** Create the new parser with some arguments already inserted.
     *
     * @param args Args to pre-insert.
+    * @param canReadFromFileOrStdIn enables/disables reading from files or stdin when using @ syntax. Enabled by default.
     */
-  def apply(args: CSeq[String]): Scallop = new Scallop(args)
+  def apply(
+             args: CSeq[String],
+             canReadFromFileOrStdIn: Boolean
+           ): Scallop = new Scallop(args, canReadFromFileOrStdIn = canReadFromFileOrStdIn)
+
+  /** Create the default empty parser, fresh as mountain air.
+   *
+   * @param canReadFromFileOrStdIn enables/disables reading from files or stdin when using @ syntax. Enabled by default.
+   * */
+  def apply(canReadFromFileOrStdIn: Boolean): Scallop = apply(Nil, canReadFromFileOrStdIn)
 
   /** Create the default empty parser, fresh as mountain air. */
-  def apply(): Scallop = apply(Nil)
+  def apply(): Scallop = apply(Nil, true)
 
   private[scallop] def builtinHelpOpt =
     SimpleOption(
@@ -59,7 +69,8 @@ case class Scallop(
   appendDefaultToDescription: Boolean = false,
   noshort: Boolean = false,
   helpFormatter: ScallopHelpFormatter = new ScallopHelpFormatter,
-  subbuilders: List[(String, Scallop)] = Nil
+  subbuilders: List[(String, Scallop)] = Nil,
+  canReadFromFileOrStdIn: Boolean
 ) extends ScallopArgListLoader {
 
   var parent: Option[Scallop] = None
@@ -349,7 +360,7 @@ case class Scallop(
   }
 
   /** Result of parsing */
-  private lazy val parsed: ParseResult = parse(loadArgList(args))
+  private lazy val parsed: ParseResult = parse(loadArgList(args, canReadFromFileOrStdIn))
 
   /** Tests whether this string contains option name, not some number. */
   private def isOptionName(s: String) =

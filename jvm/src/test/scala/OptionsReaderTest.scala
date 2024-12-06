@@ -44,6 +44,31 @@ class OptionsReaderTest extends ScallopTestBase {
     Conf.escapedSingleQuote() shouldBe "A'B"
   }
 
+  test ("disabled reading options from stdin") {
+    withInput("-a 3\n-b 5") {
+      object Conf extends ScallopConf(List("-p", "@--", "-b", "5"), canReadFromFileOrStdIn = false) {
+        val pattern = opt[String]("pattern")
+        val bananas = opt[Int]("bananas")
+
+        verify()
+      }
+      Conf.pattern() shouldBe "@--"
+      Conf.bananas() shouldBe 5
+    }
+  }
+
+  test ("disabled reading options from file") {
+    object Conf extends ScallopConf(List("-f", "@src/test/resources/opts.txt", "-b", "5"), canReadFromFileOrStdIn = false) {
+      val filename = opt[String]("filename")
+      val bananas = opt[Int]("bananas")
+
+      verify()
+    }
+    Conf.filename() shouldBe "@src/test/resources/opts.txt"
+    Conf.bananas() shouldBe 5
+  }
+
+
   def assertTok(input: String, output: Seq[String]): Unit = {
     ArgumentTokenizer.tokenize(input) match {
       case Matched(output, remainingInput) if remainingInput.length == 0 =>
