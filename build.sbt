@@ -1,8 +1,8 @@
-lazy val scalaVersionsJVM = Seq("3.0.0", "2.13.6", "2.12.13", "2.11.12", "2.10.7")
-lazy val scalaVersionsSN  = Seq("2.13.6", "2.12.13", "2.11.12")
-lazy val scalaVersionsJS  = Seq("3.0.0", "2.13.6", "2.12.13", "2.11.12")
+lazy val scalaVersionsJVM = Seq("3.3.4", "3.2.2", "3.1.3", "2.13.15", "2.12.20", "2.11.12", "2.10.7")
+lazy val scalaVersionsSN  = Seq("2.13.15", "2.12.20")
+lazy val scalaVersionsJS  = Seq("3.3.4", "3.2.2", "3.1.3", "2.13.15", "2.12.20")
 
-lazy val scalaTestVersion = "3.2.9"
+lazy val scalaTestVersion = "3.2.19"
 
 val snapshotVersion = sys.env.get("SNAPSHOT_VERSION")
 
