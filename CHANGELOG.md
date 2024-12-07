@@ -4,6 +4,9 @@
 ## Bugfixes
 ## Other
 
+# v5.2.0
+- Support Scala Native 0.5 (#250);
+
 # v5.1.0
 - extend validation functions to support props (#244);
 
